@@ -1,0 +1,8 @@
+aws_region                = "us-west-2"
+cluster_name              = "eks-monitoring-cluster"
+vpc_cidr_block            = "10.0.0.0/16"
+vpc_name                  = "eks-monitoring-vpc"
+subnet1_cidr_block        = "10.0.1.0/24"
+subnet1_availability_zone = "us-west-2a"
+subnet2_cidr_block        = "10.0.2.0/24"
+subnet2_availability_zone = "us-west-2b"
