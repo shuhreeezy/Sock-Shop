@@ -1,17 +1,21 @@
-name: Terraform Apply
+name: Terraform workflow
 
 on:
   push:
     branches:
-      - main
+      - master
+  pull_requests:
+    branches:
+      - master
+
 
 jobs:
   terraform:
-    name: Terraform Apply
+    name: 'Terraform Apply'
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v2
 
       - name: Setup Terraform
@@ -19,15 +23,18 @@ jobs:
         with:
           terraform_version: 1.0.11 # Specify the version you are using
 
-      - name: Terraform Init
+      - name: Initialize Terraform
+        working-directory: ./AWS-EKS # Directory where Terraform files are
         run: terraform init
 
       - name: Terraform Plan
+        working-directory: ./AWS-EKS
         run: terraform plan
 
       - name: Terraform Apply
+        working-directory: ./AWS-EKS
         if: github.ref == 'refs/heads/main'
         run: terraform apply -auto-approve
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} # AWS Credentials
